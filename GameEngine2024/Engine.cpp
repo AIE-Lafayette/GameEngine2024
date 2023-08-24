@@ -1,10 +1,31 @@
 #include "Engine.h"
 #include <chrono>
+#include "Scene.h"
+#include "Window.h"
+
+GameEngine::Scene* GameEngine::Engine::m_currentScene = nullptr;
+double GameEngine::Engine::m_deltaTime = 0;
+
+GameGraphics::Window window;
+
+bool GameEngine::Engine::getApplicationShouldClose()
+{
+	return window.getShouldClose();
+}
+
+void GameEngine::Engine::closeApplication()
+{
+	window.close();
+}
 
 void GameEngine::Engine::run()
 {
 	double lastTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 	double deltaTime = 0;
+
+	window = GameGraphics::Window(800, 800, "Test Application");
+	window.open();
+	window.setTargetFrameRate(60);
 
 	start();
 
@@ -18,12 +39,33 @@ void GameEngine::Engine::run()
 		m_deltaTime = deltaTime / 1000;
 
 		update(m_deltaTime);
+
+		window.beginDrawing();
 		draw();
+		window.endDrawing();
 	}
 
 	end();
+
+	window.close();
 }
 
 void GameEngine::Engine::start()
 {
+	m_currentScene->start();
+}
+
+void GameEngine::Engine::update(double deltaTime)
+{
+	m_currentScene->update(deltaTime);
+}
+
+void GameEngine::Engine::draw()
+{
+	m_currentScene->draw();
+}
+
+void GameEngine::Engine::end()
+{
+	m_currentScene->end();
 }

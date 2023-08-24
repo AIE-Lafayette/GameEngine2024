@@ -4,6 +4,7 @@
 namespace GameEngine
 {
 	class Component;
+	class TransformComponent;
 
 	class Entity
 	{
@@ -22,20 +23,6 @@ namespace GameEngine
 		virtual void onEnable() {}
 		virtual void onDisable() {}
 
-		/// <summary>
-		/// Returns nullptr if the variable can't be cast as the type. 
-		/// Otherwise, returns a pointer to the variable of the desired cast type.
-		/// dynamic_cast<type*>(pointer name)
-		/// </summary>
-		
-		/// <summary>
-		/// for (type variableName : listName)
-		/// {
-		/// 
-		/// }
-		/// </summary>
-		/// <param name="component"></param>
-
 		void addComponent(Component* component);
 
 		template<typename T>
@@ -45,13 +32,39 @@ namespace GameEngine
 		T* getComponent();
 
 		bool getStarted() { return m_started; }
+		TransformComponent* getTransform() { return m_transform; }
 
 		bool getEnabled() { return m_enabled; }
-		void setEnabled(bool value) { m_enabled = value; }
+		void setEnabled(bool value);
 
 	private:
 		bool m_enabled;
 		bool m_started;
 		List<Component*> m_components;
+		TransformComponent* m_transform;
 	};
+	template<typename T>
+	inline T* Entity::addComponent()
+	{
+		Component* component = new T();
+
+		component->setOwner(this);
+		m_components.add(component);
+
+		return (T*)component;
+	}
+
+	template<typename T>
+	inline T* Entity::getComponent()
+	{
+		T* result = nullptr;
+
+		for (Component* component : m_components)
+		{
+			if (result = dynamic_cast<T*>(component))
+				break;
+		}
+
+		return result;
+	}
 }
