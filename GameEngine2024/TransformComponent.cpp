@@ -16,6 +16,12 @@ void GameEngine::TransformComponent::setLocalPosition(GameMath::Vector3 position
     m_translation = position;
 }
 
+void GameEngine::TransformComponent::setLocalPosition(float x, float y)
+{
+    m_translation.x = x;
+    m_translation.y = y;
+}
+
 GameMath::Vector3 GameEngine::TransformComponent::getLocalPosition()
 {
     updateMatrices();

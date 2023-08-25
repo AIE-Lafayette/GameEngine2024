@@ -12,6 +12,8 @@ namespace GameEngine
         GameMath::Matrix4 getGlobalMatrix();
 
         void setLocalPosition(GameMath::Vector3 position);
+        void setLocalPosition(float x, float y);
+
         GameMath::Vector3 getLocalPosition();
         GameMath::Vector3 getGlobalPosition();
 

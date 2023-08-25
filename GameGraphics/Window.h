@@ -5,6 +5,7 @@ namespace GameGraphics
 	class Window
 	{
 	public:
+		Window() {}
 		Window(int width, int height, const char* title = "Window");
 
 		int getWidth() { return m_width; }
