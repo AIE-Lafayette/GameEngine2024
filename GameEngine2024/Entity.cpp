@@ -1,8 +1,10 @@
 #include "Entity.h"
 #include "Component.h"
+#include "TransformComponent.h"
 
 GameEngine::Entity::Entity()
 {
+	m_transform = addComponent<TransformComponent>();
 }
 
 void GameEngine::Entity::start()

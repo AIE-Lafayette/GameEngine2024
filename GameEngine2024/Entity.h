@@ -38,7 +38,7 @@ namespace GameEngine
 		void setEnabled(bool value);
 
 	private:
-		bool m_enabled;
+		bool m_enabled = true;
 		bool m_started;
 		List<Component*> m_components;
 		TransformComponent* m_transform;

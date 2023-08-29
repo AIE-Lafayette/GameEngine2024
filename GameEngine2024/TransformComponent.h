@@ -21,6 +21,7 @@ namespace GameEngine
         GameMath::Vector3 getLocalRotation();
 
         void setLocalScale(GameMath::Vector3 scale);
+        void setLocalScale(float x, float y);
         GameMath::Vector3 getLocalScale();
 
         GameMath::Vector3 getGlobalScale();

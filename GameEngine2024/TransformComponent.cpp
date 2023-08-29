@@ -50,6 +50,13 @@ void GameEngine::TransformComponent::setLocalScale(GameMath::Vector3 scale)
     m_scale = scale;
 }
 
+
+void GameEngine::TransformComponent::setLocalScale(float x, float y)
+{
+    m_scale.x = x;
+    m_scale.y = y;
+}
+
 GameMath::Vector3 GameEngine::TransformComponent::getLocalScale()
 {
     updateMatrices();

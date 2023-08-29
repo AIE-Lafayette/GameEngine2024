@@ -12,6 +12,7 @@ namespace GameGraphics
     class ShapeComponent : public GameEngine::Component
     {
     public:
+        ShapeComponent() {};
         ShapeComponent(ShapeType shapeType) : Component() { m_shapeType = shapeType; }
 
         void setColor(unsigned int color) { m_color = color; }
