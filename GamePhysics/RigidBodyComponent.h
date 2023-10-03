@@ -1,4 +1,4 @@
-#include <Component.h>
+#include "GameEngine2024/Component.h"
 #include <GameMath/Vector3.h>
 #include <GameMath/Vector2.h>
 
@@ -18,8 +18,14 @@ namespace GamePhysics
 		float getGravity() { return m_gravity; }
 		void setGravity(float gravity) { m_gravity = gravity; }
 
-		float getMass() { return m_mass; }
-		void setMass(float mass) {}
+		float getMass();
+		void setMass(float mass) { m_mass = mass; }
+
+		bool getIsKinematic() { return m_isKinematic; }
+		void setIsKinematic(bool value) { m_isKinematic = value; }
+
+		float getElasticity() { return m_elasticity; }
+		void setElasticity(float elasticity) { m_elasticity = elasticity; }
 
 		void applyForce(GameMath::Vector3 force);
 		void applyForce(GameMath::Vector2 force);
@@ -27,11 +33,18 @@ namespace GamePhysics
 		void applyForceToActor(RigidBodyComponent* other, GameMath::Vector3 force);
 		void applyForceToActor(RigidBodyComponent* other, GameMath::Vector2 force);
 
-		void update(double deltaTime) override;
+		void resolveCollision(GamePhysics::Collision* collisionData);
+
+		void fixedUpdate(double deltaTime) override;
+
+	private:
+		void applyContactForce(GamePhysics::Collision* other);
 
 	private:
 		float m_mass = 1;
+		float m_elasticity = 0;
 		float m_gravity = 9.81f;
+		bool m_isKinematic;
 		GameMath::Vector3 m_velocity = GameMath::Vector3();
 	};
 }

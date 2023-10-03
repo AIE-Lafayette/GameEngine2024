@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine2024", "GameEngine2024\GameEngine2024.vcxproj", "{93EA7471-1F12-4BA3-AC09-E70AF31E6D3C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameGraphics", "GameGraphics\GameGraphics.vcxproj", "{F3BEAAE7-461E-4FDE-A7FB-AB96D8E3BED3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{93EA7471-1F12-4BA3-AC09-E70AF31E6D3C} = {93EA7471-1F12-4BA3-AC09-E70AF31E6D3C}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApplication", "TestApplication\TestApplication.vcxproj", "{5E6B704D-4DA0-40BA-ACB6-F9FF2604781F}"
 	ProjectSection(ProjectDependencies) = postProject

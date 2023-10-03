@@ -1,31 +1,32 @@
 #include "Engine.h"
 #include <chrono>
 #include "Scene.h"
-#include "Window.h"
+#include "GameGraphics/Window.h"
 
 GameEngine::Scene* GameEngine::Engine::m_currentScene = nullptr;
 double GameEngine::Engine::m_deltaTime = 0;
+double GameEngine::Engine::m_fixedTimeStep = 0.01f;
 
-GameGraphics::Window window;
+GameGraphics::Window* GameEngine::Engine::m_window = nullptr;
 
 bool GameEngine::Engine::getApplicationShouldClose()
 {
-	return window.getShouldClose();
+	return m_window->getShouldClose();
 }
 
 void GameEngine::Engine::closeApplication()
 {
-	window.close();
+	m_window->close();
 }
 
 void GameEngine::Engine::run()
 {
 	double lastTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 	double deltaTime = 0;
+	double accumulatedTime = 0;
 
-	window = GameGraphics::Window(800, 800, "Test Application");
-	window.open();
-	window.setTargetFrameRate(60);
+	m_window = new GameGraphics::Window(800, 800, "Test Application");
+	m_window->open();
 
 	start();
 
@@ -35,19 +36,28 @@ void GameEngine::Engine::run()
 		deltaTime = currentTime - lastTime;
 
 		lastTime = currentTime;
-		
+
+		accumulatedTime += deltaTime / 1000;
+
 		m_deltaTime = deltaTime / 1000;
 
 		update(m_deltaTime);
 
-		window.beginDrawing();
+		while (accumulatedTime >= m_fixedTimeStep)
+		{
+			accumulatedTime -= m_fixedTimeStep;
+			fixedUpdate(getTimeStep());
+		}
+
+		m_window->beginDrawing();
 		draw();
-		window.endDrawing();
+		m_window->endDrawing();
+
 	}
 
 	end();
 
-	window.close();
+	m_window->close();
 }
 
 void GameEngine::Engine::start()
@@ -58,6 +68,11 @@ void GameEngine::Engine::start()
 void GameEngine::Engine::update(double deltaTime)
 {
 	m_currentScene->update(deltaTime);
+}
+
+void GameEngine::Engine::fixedUpdate(double fixedDeltaTime)
+{
+	m_currentScene->fixedUpdate(fixedDeltaTime);
 }
 
 void GameEngine::Engine::draw()

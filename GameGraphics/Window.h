@@ -1,5 +1,7 @@
 #pragma once
 
+class GLFWwindow;
+
 namespace GameGraphics
 {
 	class Window
@@ -25,5 +27,6 @@ namespace GameGraphics
 		int m_width;
 		int m_height;
 		const char* m_title;
+		GLFWwindow* m_window;
 	};
 }

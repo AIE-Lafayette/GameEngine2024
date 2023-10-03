@@ -31,6 +31,17 @@ void GameEngine::Entity::update(double deltaTime)
 	onUpdate(deltaTime);
 }
 
+void GameEngine::Entity::fixedUpdate(double fixedDeltaTime)
+{
+	for (Component* component : m_components)
+	{
+		if (component->getEnabled())
+			component->fixedUpdate(fixedDeltaTime);
+	}
+
+	onFixedUpdate(fixedDeltaTime);
+}
+
 void GameEngine::Entity::draw()
 {
 	for (Component* component : m_components)
@@ -67,4 +78,10 @@ void GameEngine::Entity::setEnabled(bool value)
 		onDisable();
 
 	m_enabled = value;
+}
+
+void GameEngine::Entity::onCollisionEnter(GamePhysics::Collision* other)
+{
+	for (Component* component : m_components)
+		component->onCollision(other);
 }

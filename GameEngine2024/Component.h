@@ -11,11 +11,13 @@ namespace GameEngine
 
 		virtual void start() {}
 		virtual void update(double deltaTime) {}
+		virtual void fixedUpdate(double fixedDeltaTime) {}
 		virtual void draw() {}
 		virtual void end() {}
 
 		virtual void onEnable() {}
 		virtual void onDisable() {}
+		virtual void onCollision(GamePhysics::Collision* other) {};
 
 		bool getEnabled() { return m_enabled; }
 		void setEnabled(bool enabled);

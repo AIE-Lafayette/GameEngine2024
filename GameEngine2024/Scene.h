@@ -1,5 +1,11 @@
 #pragma once
 #include "Entity.h"
+#include "Component.h"
+
+namespace GamePhysics
+{
+	class ColliderComponent;
+}
 
 namespace GameEngine
 {
@@ -10,11 +16,13 @@ namespace GameEngine
 
 		void start();
 		void update(double deltaTime);
+		void fixedUpdate(double fixedDeltaTime);
 		void draw();
 		void end();
 
 		virtual void onStart() {}
 		virtual void onUpdate(double deltaTime) {}
+		virtual void onFixedUpdate(double fixedDeltaTime) {};
 		virtual void onDraw() {}
 		virtual void onEnd() {}
 
@@ -22,8 +30,12 @@ namespace GameEngine
 
 		void removeEntity(Entity* entity);
 
+		void addActiveCollider(GamePhysics::ColliderComponent* collider) { m_activeColliders.add(collider); }
+		void removeActiveCollider(GamePhysics::ColliderComponent* collider) { m_activeColliders.remove(collider); }
+
 	private:
 		List<Entity*> m_entities;
+		List<GamePhysics::ColliderComponent*> m_activeColliders;
 	};
 
 }
