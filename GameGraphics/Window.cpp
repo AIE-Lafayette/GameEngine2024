@@ -2,10 +2,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <GameEngine2024/Engine.h>
+#include "Gizmos.h"
 
 void error_callback(int error, const char* description)
 {
 	std::cout << description << std::endl;
+	
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -45,8 +48,9 @@ void GameGraphics::Window::setTargetFrameRate(int fps)
 
 void GameGraphics::Window::open()
 {
+	//Create a new window using glfw and store the context.
 	m_window = glfwCreateWindow(m_width, m_height, m_title, NULL, NULL);
-
+	//If glfw wasn't able to create the window log the error and stop glfw.
 	if (!m_window)
 	{
 		std::cout << "Failed to create window" << std::endl;
@@ -54,9 +58,12 @@ void GameGraphics::Window::open()
 		return;
 	}
 
+	//Tell glfw to focus on the window we made.
 	glfwMakeContextCurrent(m_window);
+	//Set a function to be called whenever the window should be resized.
 	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
+	//Bind the open gl functions using the address of the glfw process.
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -64,6 +71,8 @@ void GameGraphics::Window::open()
 	}
 
 	glViewport(0, 0, m_width, m_height);
+
+	GameGraphics::Gizmos::init();
 }
 
 void GameGraphics::Window::beginDrawing()
@@ -72,6 +81,8 @@ void GameGraphics::Window::beginDrawing()
 	glClearColor(0, 0, 0, 0);
 	//Draw over all elements on the screen
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	GameGraphics::Gizmos::drawTriangle({ -200,0 }, { 200, 0 }, { 0,200 }, {0.5f, 0.5f, 0.0f, 1});
 }
 
 void GameGraphics::Window::endDrawing()
@@ -86,4 +97,15 @@ void GameGraphics::Window::close()
 {
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
+}
+
+GameMath::Vector2 GameGraphics::Window::convertToScreenPosition(GameMath::Vector2 position)
+{
+	float halfWidth = (float)GameEngine::Engine::getWindow()->getWidth() / 2;
+	float halfHeight = (float)GameEngine::Engine::getWindow()->getHeight() / 2;
+
+	position.x = position.x / halfWidth;
+	position.y = position.y / halfHeight;
+
+	return position;
 }
