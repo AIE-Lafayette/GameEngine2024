@@ -24,11 +24,11 @@ GamePhysics::Collision* GamePhysics::ColliderComponent::checkCollision(ColliderC
 
 void GamePhysics::ColliderComponent::onCollision(GamePhysics::Collision* other)
 {
-	m_color = 0XFF0000FF;
+	setColor({ 1,0,0,1 });
 }
 
 void GamePhysics::ColliderComponent::update(double deltaTime)
 {
-	m_color = 0X00FF00FF;
+	setColor({ 0,1,0,1 });
 }
 

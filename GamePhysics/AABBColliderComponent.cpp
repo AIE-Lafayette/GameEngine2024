@@ -1,6 +1,7 @@
 #include "AABBColliderComponent.h"
 #include "CircleColliderCompnent.h"
 #include "GameEngine2024/TransformComponent.h"
+#include <GameGraphics/Gizmos.h>
 
 GamePhysics::AABBColliderComponent::AABBColliderComponent(float width, float height)
 {
@@ -80,7 +81,7 @@ GamePhysics::Collision* GamePhysics::AABBColliderComponent::checkCollisionAABB(A
 void GamePhysics::AABBColliderComponent::draw()
 {
     GameMath::Vector3 position = getOwner()->getTransform()->getGlobalPosition();
-    //RAYLIB_H::DrawRectangleLines(getLeft(), getBottom(), m_width, m_height, GetColor(getColor()));
+    GameGraphics::Gizmos::drawBoxLines({ m_width, m_height }, { position.x, position.y }, getColor());
 }
 
 float GamePhysics::AABBColliderComponent::getLeft()

@@ -2,6 +2,7 @@
 #include <GameMath/Vector3.h>
 #include "GameEngine2024/TransformComponent.h"
 #include "AABBColliderComponent.h"
+#include "GameGraphics/Gizmos.h"
 
 GamePhysics::Collision* GamePhysics::CircleColliderComponent::checkCollisionCircle(CircleColliderComponent* other)
 {
@@ -40,7 +41,7 @@ void GamePhysics::CircleColliderComponent::draw()
 {
 	GameMath::Vector3 position = getOwner()->getTransform()->getGlobalPosition();
 
-	unsigned int colorCode = getColor();
+	GameMath::Vector4 color = getColor();
 
-	//RAYLIB_H::DrawCircleLines(position.x, position.y, getRadius(), GetColor(colorCode));
+	GameGraphics::Gizmos::drawCircleLines({position.x, position.y}, getRadius(), 50, color);
 }

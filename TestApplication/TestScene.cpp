@@ -7,7 +7,6 @@
 
 void TestScene::onStart()
 {
-	return;
 	//ball 1
 	GameEngine::Entity* circle = new GameEngine::Entity();
 	circle->addComponent<GameGraphics::ShapeComponent>()->setShapeType(GameGraphics::CIRCLE);
@@ -15,7 +14,7 @@ void TestScene::onStart()
 
 	circle->addComponent(new GamePhysics::CircleColliderComponent(30));
 
-	circle->getTransform()->setLocalPosition(100,100);
+	circle->getTransform()->setLocalPosition(0,100);
 	circle->getTransform()->setLocalScale(25, 25);
 	rigidBody->setElasticity(1);
 
@@ -28,7 +27,7 @@ void TestScene::onStart()
 
 	rigidBody2->setGravity(0);
 	rigidBody2->setIsKinematic(true);
-	circle2->getTransform()->setLocalPosition(100, 500);
+	circle2->getTransform()->setLocalPosition(0, 0);
 
 	circle2->getTransform()->setLocalScale(25, 25);
 

@@ -117,7 +117,7 @@ void GamePhysics::RigidBodyComponent::fixedUpdate(double deltaTime)
 	GameMath::Vector3 position = getOwner()->getTransform()->getLocalPosition();
 	getOwner()->getTransform()->setLocalPosition(position + getVelocity3D() * deltaTime);
 
-	GameMath::Vector3 gravity = { 0, getGravity(), 0 };
+	GameMath::Vector3 gravity = { 0, -getGravity(), 0 };
 
 	applyForce(gravity * getMass());
 }

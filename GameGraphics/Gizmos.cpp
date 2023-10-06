@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <iostream>
 #include "Window.h"
+#include <vector>
 
 unsigned int GameGraphics::Gizmos::m_vertexBufferID = 0;
 unsigned int GameGraphics::Gizmos::m_fragBufferID = 0;
@@ -235,4 +236,112 @@ void GameGraphics::Gizmos::drawBoxLines(GameMath::Vector2 dimensions, GameMath::
 
 	glUseProgram(m_shaderProgram);
 	glDrawArrays(GL_LINE_LOOP, 0, 4);
+}
+
+void GameGraphics::Gizmos::drawCircle(GameMath::Vector2 position, float radius, int vertices, GameMath::Vector4 color)
+{
+	//The total amount of vertices is going to increase by two to include the origin and one more to close the loop.
+	int size = vertices + 2;
+
+	std::vector<GameMath::Vector2> vertexPositions;
+	std::vector<float> vertexList;
+
+	//Store pi since there isn't an easy way to get a constant.
+	float pi = 3.14159265359f;
+	//Find the amount the angle of the circle will increase between each vertex.
+	float angleIncrease = pi * 2 / vertices;
+	float angle = 0;
+	//Place a vertex at the circles center point so the circle fills correctly.
+	GameMath::Vector2 vertexPosition = GameGraphics::Window::convertToScreenPosition(position);
+	vertexPositions.push_back(vertexPosition);
+
+	//Loop to find the rest of the vertex screen locations.
+	for (int i = 0; i < size; i++)
+	{
+		//Find the position of the vertex by adding the current direction vector to the position.
+		vertexPosition = position + (GameMath::Vector2{ cos(angle), sin(angle) } * radius);
+		vertexPosition = GameGraphics::Window::convertToScreenPosition(vertexPosition);
+
+		//Add the new vertex position to the list and increase the angle to find the next.
+		vertexPositions.push_back(vertexPosition);
+		angle += angleIncrease;
+	}
+
+	//Loop to collect all of the individual vertex coordinates to pass off to opengl.
+	for (int i = 0; i < size; i++)
+	{
+		vertexList.push_back(vertexPositions[i].x);
+		vertexList.push_back(vertexPositions[i].y);
+		vertexList.push_back(0);
+	}
+
+	glBindVertexArray(m_vertexArrayID);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexList.size(), &vertexList[0], GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
+	glEnableVertexAttribArray(0);
+
+	int colorLocation = glGetUniformLocation(m_shaderProgram, "color");
+	glUniform4f(colorLocation, color.x, color.y, color.z, color.w);
+
+	glUseProgram(m_shaderProgram);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, size);
+
+	vertexList.clear();
+	vertexPositions.clear();
+}
+
+void GameGraphics::Gizmos::drawCircleLines(GameMath::Vector2 position, float radius, int vertices, GameMath::Vector4 color)
+{//The total amount of vertices is going to increase by two to include the origin and one more to close the loop.
+	int size = vertices + 2;
+
+	std::vector<GameMath::Vector2> vertexPositions;
+	std::vector<float> vertexList;
+
+	//Store pi since there isn't an easy way to get a constant.
+	float pi = 3.14159265359f;
+	//Find the amount the angle of the circle will increase between each vertex.
+	float angleIncrease = pi * 2 / vertices;
+	float angle = 0;
+
+	GameMath::Vector2 vertexPosition;
+
+	//Loop to find the rest of the vertex screen locations.
+	for (int i = 0; i < size; i++)
+	{
+		//Find the position of the vertex by adding the current direction vector to the position.
+		vertexPosition = position + (GameMath::Vector2{ cos(angle), sin(angle) } *radius);
+		vertexPosition = GameGraphics::Window::convertToScreenPosition(vertexPosition);
+
+		//Add the new vertex position to the list and increase the angle to find the next.
+		vertexPositions.push_back(vertexPosition);
+		angle += angleIncrease;
+	}
+
+	//Loop to collect all of the individual vertex coordinates to pass off to opengl.
+	for (int i = 0; i < size; i++)
+	{
+		vertexList.push_back(vertexPositions[i].x);
+		vertexList.push_back(vertexPositions[i].y);
+		vertexList.push_back(0);
+	}
+
+	glBindVertexArray(m_vertexArrayID);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexList.size(), &vertexList[0], GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
+	glEnableVertexAttribArray(0);
+
+	int colorLocation = glGetUniformLocation(m_shaderProgram, "color");
+	glUniform4f(colorLocation, color.x, color.y, color.z, color.w);
+
+	glUseProgram(m_shaderProgram);
+	glDrawArrays(GL_LINE_LOOP, 0, size);
+
+	vertexList.clear();
+	vertexPositions.clear();
 }

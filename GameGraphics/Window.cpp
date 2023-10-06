@@ -82,7 +82,7 @@ void GameGraphics::Window::beginDrawing()
 	//Draw over all elements on the screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	GameGraphics::Gizmos::drawTriangle({ -200,0 }, { 200, 0 }, { 0,200 }, {0.5f, 0.5f, 0.0f, 1});
+	//GameGraphics::Gizmos::drawTriangle({ -200,0 }, { 200, 0 }, { 0,200 }, {0.5f, 0.5f, 0.0f, 1});
 }
 
 void GameGraphics::Window::endDrawing()
