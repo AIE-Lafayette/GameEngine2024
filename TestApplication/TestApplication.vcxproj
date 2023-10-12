@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RotationComponent.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,11 +148,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GizmoShader.frag" />
     <None Include="GizmoShader.vert" />
+    <None Include="SpriteShader.frag" />
+    <None Include="SpriteShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

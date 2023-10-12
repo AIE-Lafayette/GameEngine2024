@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <GameMath/Matrix4.h>
 #include <GameMath/Vector3.h>
+#include <GameMath/Vector2.h>
 
 namespace GameEngine
 {
@@ -16,6 +17,7 @@ namespace GameEngine
 
         GameMath::Vector3 getLocalPosition();
         GameMath::Vector3 getGlobalPosition();
+        GameMath::Vector2 getGlobalPosition2D();
 
         void setLocalRotation(GameMath::Vector3 rotation);
         GameMath::Vector3 getLocalRotation();
@@ -25,6 +27,7 @@ namespace GameEngine
         GameMath::Vector3 getLocalScale();
 
         GameMath::Vector3 getGlobalScale();
+        GameMath::Vector2 getGlobalScale2D();
 
         void setParent(TransformComponent* parent);
         TransformComponent* getParent();

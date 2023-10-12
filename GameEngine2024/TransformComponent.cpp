@@ -34,6 +34,14 @@ GameMath::Vector3 GameEngine::TransformComponent::getGlobalPosition()
     return GameMath::Vector3(m_globalMatrix.m03, m_globalMatrix.m13, m_globalMatrix.m23);
 }
 
+
+GameMath::Vector2 GameEngine::TransformComponent::getGlobalPosition2D()
+{
+    updateMatrices();
+    return GameMath::Vector2(m_globalMatrix.m03, m_globalMatrix.m13);
+}
+
+
 void GameEngine::TransformComponent::setLocalRotation(GameMath::Vector3 rotation)
 {
     m_rotation = rotation;
@@ -72,6 +80,16 @@ GameMath::Vector3 GameEngine::TransformComponent::getGlobalScale()
     GameMath::Vector3 zAxis = { m_globalMatrix.m20, m_globalMatrix.m21, m_globalMatrix.m22 };
 
     return GameMath::Vector3(xAxis.getMagnitude(), yAxis.getMagnitude(), zAxis.getMagnitude());
+}
+
+GameMath::Vector2 GameEngine::TransformComponent::getGlobalScale2D()
+{
+    updateMatrices();
+
+    GameMath::Vector3 xAxis = { m_globalMatrix.m00, m_globalMatrix.m01, m_globalMatrix.m02 };
+    GameMath::Vector3 yAxis = { m_globalMatrix.m10, m_globalMatrix.m11, m_globalMatrix.m12 };
+
+    return GameMath::Vector2(xAxis.getMagnitude(), yAxis.getMagnitude());
 }
 
 void GameEngine::TransformComponent::setParent(TransformComponent* parent)

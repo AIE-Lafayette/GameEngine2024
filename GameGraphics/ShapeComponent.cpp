@@ -11,5 +11,5 @@ void GameGraphics::ShapeComponent::draw()
 	if (m_shapeType == CIRCLE)
 		GameGraphics::Gizmos::drawCircle({ position.x, position.y }, scale.x, 50, m_color);
 	else if (m_shapeType == BOX)
-		GameGraphics::Gizmos::drawBoxLines({ scale.x, scale.y }, { position.x, position.y }, m_color);
+		GameGraphics::Gizmos::drawBox({ scale.x, scale.y }, { position.x, position.y }, m_color);
 }
